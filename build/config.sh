@@ -75,7 +75,7 @@ MIRROR_REPO="${MIRROR_REPO:-ghcr.io/shinsenter}"
 PREFIX="${APP//app-/}"
 SUFFIX=
 
-if [ "$OS" != "" ] && [ "$OS" != "debian" ]; then
+if [ "$OS" != "" ]; then
     SUFFIX="-$OS"
     OS_BASE="$OS"
 fi
@@ -338,7 +338,7 @@ app-*)
     esac
 
     # get checksum of the base image
-    BUILD_CACHE_KEY="($BUILD_FROM_IMAGE@$(get_dockerhub_latest_sha "$BUILD_FROM_IMAGE" 1 "php$PHP_VERSION" | head -c17))"
+    # BUILD_CACHE_KEY="($BUILD_FROM_IMAGE@$(get_dockerhub_latest_sha "$BUILD_FROM_IMAGE" 1 "php$PHP_VERSION" | head -c17))"
     ;;
 
 *)

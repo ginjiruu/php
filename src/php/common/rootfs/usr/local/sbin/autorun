@@ -8,26 +8,26 @@
 ################################################################################
 
 run_cmd() {
-    if [ -x "$1" ]; then
+    if [ -x "$script" ]; then
         debug-echo "\nAutorun script $1"
         with-env "$@"
     fi
 }
 
-for path; do
-    if [ ! -z "$path" ] && [ -e "$path" ]; then
-        path="$(realpath -s $path)"
-        if [ -d "$path" ]; then
-            find $path -type f -name '*.sh' | xargs -r chmod +x &>/dev/null
+for dir; do
+    if [ ! -z "$dir" ] && [ -e "$dir" ]; then
+        dir="$(realpath -s $dir)"
+        if [ -d "$dir" ]; then
+            find $dir -type f -name '*.sh' | xargs -r chmod +x &>/dev/null
             if has-cmd run-parts; then
-                with-env run-parts --new-session "$path"
+                with-env run-parts --new-session "$dir"
             else
-                for script in $(find $path -type f -perm -111 | sort -dbfi); do
+                for script in $(find $dir -type f -perm -111 | sort -dbfi); do
                     run_cmd "$script"
                 done
             fi
         else
-            run_cmd "$path"
+            run_cmd "$dir"
         fi
     fi
 done
